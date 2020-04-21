@@ -46,6 +46,4 @@ RUN chown -R shiny:shiny /srv/shiny-server/covid_risk_score
 
 EXPOSE 3838
 
-USER shiny
-
 CMD ["/root/start.sh"]
