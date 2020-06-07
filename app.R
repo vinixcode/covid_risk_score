@@ -9,9 +9,9 @@ source("src/results.R")
 
 # Define the UI
 ui <- fluidPage(
-  theme=shinytheme("superhero"),
-  titlePanel(fluidRow(column(width = 9, "19 and Me: COVID-19 Risk Score Calculator"),
-                      column(width = 3, img(src = 'MathematicaLogo_White_smaller.png',class = "pull-right")))),
+  theme=shinytheme("cerulean"),
+  titlePanel(fluidRow(column(width = 9, "CV19 CheckUp: COVID-19 Risk Score Calculator"),
+                      column(width = 3, img(src = 'cv19.png',class = "pull-right")))),
   # google analytics tracking
   tags$head(includeHTML("src/google-analytics.html")),
   
@@ -155,10 +155,10 @@ server <- function(input, output, session) {
   updateRisk <- reactive({
     updateInputCollapses()
     county_data<-getCountyData()
-    if (!input$has_preexisting) {
-      # clear the conditional panel's UI when unchecked
-      updateCheckboxGroupInput(session, "conditions", selected = character(0))
-    }
+    # if (!input$has_preexisting) {
+    #   # clear the conditional panel's UI when unchecked
+    #   updateCheckboxGroupInput(session, "conditions", selected = character(0))
+    # }
     
     # in results.R
     return (calculateRisk(input, county_data))
