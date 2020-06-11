@@ -1,7 +1,18 @@
+
+#! /usr/bin/env Rscript
 # This script contains a single function to calculate the probability of hospitalzation, ICU and deaths given user input.
+# install.packages('jsonlite')
 
 source("./global_var.R")
-
+library(jsonlite)
+# Parse arguments from command line
+# to execute run: 
+# Rscript susceptibility_wrapper.R 60 male 'list("is_cvd","is_diabetes")'
+# Rscript susceptibility_wrapper.R 75 female 'NULL'
+args <- commandArgs(trailingOnly = TRUE)
+age <- args[1]
+sex <- args[2]
+input <- list(age = args[1], sex = args[2], conditions = eval(parse(text=args[3])))
 
 risk2odds<-function(prob) {
     return (prob / (1 - prob))
@@ -28,7 +39,7 @@ calculate_susceptibility <- function (input){
     # If user has no comorbidities, conditions will be NULL
     
     #check input validity
-    assertthat::assert_that(is.numeric(input$age), msg = "Age must be numeric.")
+    # assertthat::assert_that(is.numeric(input$age), msg = "Age must be numeric.")
     assertthat::assert_that(tolower(input$sex) %in% c("male", "female", "other"), msg = "Sex must be one of the three: male, female, other")
     
     #Baseline probability of hosp, ICU, death based on age
@@ -66,20 +77,25 @@ calculate_susceptibility <- function (input){
     icu_risk = odds2risk(icu_odds)
     death_risk = odds2risk(death_odds)
     
-    return(list(hosp_risk = hosp_risk,
+    #Output is returned in JSON
+    returnJson <- jsonlite::toJSON(list(hosp_risk = hosp_risk,
                 icu_risk = icu_risk,
                 death_risk = death_risk))
+    return(returnJson)
 }
 
+#Execute function
+calculate_susceptibility(input)
+
 # examples
-input1 <- list(age = 50, sex = "male", conditions = NULL)
-calculate_susceptibility(input1)
+# input1 <- list(age = 50, sex = "male", conditions = NULL)
+# calculate_susceptibility(input1)
 
-input2 <- list(age = 65, sex = "male", conditions = list("is_cvd", "is_hyper"))
-calculate_susceptibility(input2)
+# input2 <- list(age = 65, sex = "male", conditions = list("is_cvd", "is_hyper"))
+# calculate_susceptibility(input2)
 
-input3 <- list(age = 57, sex = "other", conditions = list("is_other"))
-calculate_susceptibility(input3)
+# input3 <- list(age = 57, sex = "other", conditions = list("is_other"))
+# calculate_susceptibility(input3)
 
-input4 <- list(age = 32, sex = "male", conditions = list("is_obese"))
-calculate_susceptibility(input4)
+# input4 <- list(age = 32, sex = "male", conditions = list("is_obese"))
+# calculate_susceptibility(input4)
