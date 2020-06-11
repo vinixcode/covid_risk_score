@@ -2,9 +2,9 @@
 #! /usr/bin/env Rscript
 # This script contains a single function to calculate the probability of hospitalzation, ICU and deaths given user input.
 # install.packages('jsonlite')
-
-source("./global_var.R")
+source("~/projects/bellage/covid_risk_score/src/global_var.R")
 library(jsonlite)
+
 # Parse arguments from command line
 # to execute run: 
 # Rscript susceptibility_wrapper.R 60 male 'list("is_cvd","is_diabetes")'
