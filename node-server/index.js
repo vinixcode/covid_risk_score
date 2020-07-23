@@ -40,3 +40,39 @@ app.get("/cv19-risk-score", (req, res) => {
     }
   );
 });
+
+// Endpoint with latest changes from Mathematica (Jul 23)
+app.get("/cv19-risk-score-v2", (req, res) => {
+  // sex and age are mandatory. Only conditions is optional.
+  const sex = req.query.sex;
+  const age = req.query.age;
+  let conditions = "NULL";
+  if (typeof req.query.conditions === "object") {
+    conditions = "list(";
+    req.query.conditions.forEach((element) => {
+      conditions += '"' + element + '",';
+    });
+    conditions = conditions.replace(/,+$/, "") + ")";
+  }
+
+  const { exec } = require("child_process");
+  // Execute R script.
+  exec(
+    "Rscript ../src/susceptibility_wrapper_v2.R " +
+      age +
+      " " +
+      sex +
+      " '" +
+      conditions +
+      "'",
+    function (err, stdout, stderr) {
+      if (err) {
+        // node couldn't execute the command
+        res.json(err);
+        return;
+      }
+
+      res.json(JSON.parse(stdout));
+    }
+  );
+});
