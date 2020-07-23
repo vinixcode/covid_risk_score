@@ -40,19 +40,15 @@ collapseStory <- function() {
       # checkboxInput('has_preexisting', div("I have ", tags$a("underlying medical complications", 
       #     href = urls$cdc_high_risk))),
       checkboxGroupInput("conditions", "Do you have any of the following chronic conditions? Check all that apply.",
-                          c(
-                            "Lung disease" = "is_lung",
-                            "Asthma" = "is_lung",
-                            "Heart condition" = "is_cvd",
-                            "Immunocompromised, including cancer" = "is_immune",
-                            "Diabetes" = "is_diabetes",
-                            "Renal failure" = "is_renal",
-                            "Liver disease" = "is_liver",
-                            "Obesity" = "is_obese",
-                            "Hypertension" = "is_hyper",
-                            "Current or former smoker" = "is_smoker",
-                            "Other serious health conditions" = "is_other"
-                          )),
+                          c("Chronic renal disease" = "is_renal",
+                             "Cardiovascular disease" = "is_cvd",
+                             "Diabetes" = "is_diabetes",
+                             "Hypertension" = "is_hyper",
+                             "Current or former smoker" = "is_smoker",
+                             "Immunocompromised condition" = "is_immune",
+                             "Chronic lung disease or asthma" = "is_lung",
+                             "Other chronic disease" = "is_other"
+                           )),
       actionButton('next2', "Next", class = "btn btn-info btn-block")
     ), # bsCollapsePanel
     bsCollapsePanel(
