@@ -1,4 +1,4 @@
-source("~/projects/bellage/covid_risk_score/src/global_var.R")
+source("~/projects/bellage/covid_risk_score/src/global_var_v2.R")
 library(tidyverse)
 
 solve_for_p_female <- function(OR, p_overall){

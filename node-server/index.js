@@ -6,7 +6,7 @@ app.listen(3000, () => {
 });
 
 // Endpoint that calculates the probability of hospitalization, ICU and deaths given user input.
-app.get("/cv19-risk-score", (req, res) => {
+app.get("/cv19-risk-score-v2", (req, res) => {
   // sex and age are mandatory. Only conditions is optional.
   const sex = req.query.sex;
   const age = req.query.age;
@@ -42,7 +42,7 @@ app.get("/cv19-risk-score", (req, res) => {
 });
 
 // Endpoint with latest changes from Mathematica (Jul 23)
-app.get("/cv19-risk-score-v2", (req, res) => {
+app.get("/cv19-risk-score", (req, res) => {
   // sex and age are mandatory. Only conditions is optional.
   const sex = req.query.sex;
   const age = req.query.age;
